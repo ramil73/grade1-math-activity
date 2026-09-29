@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Adventure | Grade 1</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background: #f7f9ff;
+      color: #24304a;
+    }
+    header {
+      background: linear-gradient(135deg, #5b5bd6, #7c4dff);
+      color: white;
+      padding: 22px 6%;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 3px 12px rgba(40,40,80,.18);
+    }
+    .nav {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .logo { font-size: 1.55rem; font-weight: 900; }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      margin-left: 16px;
+    }
+    nav a:hover { text-decoration: underline; }
+    .hero {
+      background: linear-gradient(135deg, #fff3c7, #e9f7ff);
+      padding: 65px 6%;
+    }
+    .hero-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      align-items: center;
+      gap: 35px;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); margin: 0 0 14px; line-height: 1; }
+    h2 { font-size: 2rem; margin-top: 0; }
+    .hero p { font-size: 1.2rem; line-height: 1.6; }
+    .mascot {
+      background: white;
+      border-radius: 35px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(60,70,130,.15);
+      font-size: 6rem;
+    }
+    .btn {
+      display: inline-block;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      background: #ffb703;
+      color: #382600;
+      text-decoration: none;
+      box-shadow: 0 5px 0 #d48e00;
+      transition: transform .15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #d48e00; }
+    section { padding: 55px 6%; }
+    .container { max-width: 1150px; margin: auto; }
+    .section-intro { text-align: center; max-width: 700px; margin: 0 auto 30px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 7px 22px rgba(50,60,120,.10);
+      border: 3px solid transparent;
+      transition: transform .2s, border-color .2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: #dcd7ff; }
+    .icon { font-size: 2.8rem; }
+    .card h3 { margin: 10px 0 7px; }
+    .card p { line-height: 1.5; }
+    .lesson {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 24px;
+    }
+    .lesson-box {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 7px 22px rgba(50,60,120,.10);
+    }
+    .number-line {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+    .number {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      background: #eef0ff;
+      font-weight: 900;
+    }
+    .example {
+      background: #fff8dc;
+      border-radius: 18px;
+      padding: 18px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-align: center;
+    }
+    .activity-wrap {
+      background: #1f2850;
+      color: white;
+      border-radius: 30px;
+      padding: 35px;
+    }
+    .quiz {
+      background: white;
+      color: #24304a;
+      border-radius: 22px;
+      padding: 25px;
+      margin-top: 18px;
+    }
+    .question { font-size: 1.25rem; font-weight: 900; margin-bottom: 15px; }
+    .choices { display: grid; gap: 10px; }
+    .choice {
+      border: 2px solid #d9def5;
+      background: #f9faff;
+      border-radius: 14px;
+      padding: 13px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .choice:hover { background: #eef0ff; }
+    .choice.correct { background: #d9f8df; border-color: #49b866; }
+    .choice.wrong { background: #ffe0e0; border-color: #e45b5b; }
+    .qnum { font-size: .95rem; font-weight: 900; color: #6c63ff; margin-bottom: 6px; }
+    .feedback { min-height: 28px; font-weight: 900; margin-top: 14px; }
+    .score {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-top: 20px;
+      color: #ffcf45;
+    }
+    .progress-area {
+      background: white;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 7px 22px rgba(50,60,120,.10);
+    }
+    .bar { background: #e8eaff; height: 18px; border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; width: 0%; background: #6c63ff; transition: width .4s; }
+    .badges { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .badge {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #eee;
+      font-weight: 900;
+      opacity: .45;
+    }
+    .badge.unlocked { opacity: 1; background: #fff0b3; }
+    footer {
+      background: #1f2850;
+      color: white;
+      padding: 30px 6%;
+      text-align: center;
+    }
+    @media (max-width: 850px) {
+      .hero-inner, .lesson { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      nav { justify-content: center; }
+    }
+    @media (max-width: 520px) {
+      .cards { grid-template-columns: 1fr; }
+      section { padding: 40px 5%; }
+      .activity-wrap { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo">🌟 Math Adventure</div>
+    <nav>
+      <a href="#lessons">Lessons</a>
+      <a href="#activities">Activities</a>
+      <a href="#progress">Progress</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p><strong>Welcome, Young Mathematician! 👋</strong></p>
+        <h1>Let's Learn Math!</h1>
+        <p>Have fun learning Grade 1 Mathematics through colorful lessons, examples, and interactive questions.</p>
+        <a class="btn" href="#lessons">Start Learning 🚀</a>
+      </div>
+      <div class="mascot" aria-label="friendly math mascot">🧑‍🚀<br><span style="font-size:1.2rem">Math Explorer</span></div>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <div class="container">
+      <div class="section-intro">
+        <h2>📚 Our Lessons</h2>
+        <p>Choose a topic and practice one step at a time.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon">🔢</div>
+          <h3>Counting</h3>
+          <p>Count numbers from 1 to 20 and recognize number order.</p>
+        </article>
+        <article class="card">
+          <div class="icon">➕</div>
+          <h3>Addition</h3>
+          <p>Put groups together and solve simple addition problems.</p>
+        </article>
+        <article class="card">
+          <div class="icon">➖</div>
+          <h3>Subtraction</h3>
+          <p>Take objects away and learn how subtraction works.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🔺</div>
+          <h3>Shapes</h3>
+          <p>Identify common shapes such as circles, squares, and triangles.</p>
+        </article>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-box">
+          <h3>🔢 Counting 1 to 20</h3>
+          <p>Numbers help us tell how many objects we have. Let's count together!</p>
+          <div class="number-line" id="numberLine"></div>
+          <div class="example">🍎 🍎 🍎 🍎 🍎 = 5 apples</div>
+        </div>
+        <div class="lesson-box">
+          <h3>➕ Addition</h3>
+          <p>Addition means putting groups together.</p>
+          <div class="example">🍎🍎 + 🍎🍎🍎 = 5 🍎</div>
+          <p><strong>2 + 3 = 5</strong></p>
+          <p>Tip: You can count all the objects to find the answer.</p>
+        </div>
+        <div class="lesson-box">
+          <h3>➖ Subtraction</h3>
+          <p>Subtraction means taking something away.</p>
+          <div class="example">⭐⭐⭐⭐⭐ − ⭐⭐ = ⭐⭐⭐</div>
+          <p><strong>5 − 2 = 3</strong></p>
+          <p>Tip: Start with 5 and take away 2 stars.</p>
+        </div>
+        <div class="lesson-box">
+          <h3>🔺 Shapes</h3>
+          <p>Shapes are everywhere around us.</p>
+          <div class="example">⭕ Circle &nbsp; 🟦 Square &nbsp; 🔺 Triangle</div>
+          <p>A circle is round. A square has 4 equal sides. A triangle has 3 sides.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="activities">
+    <div class="container">
+      <div class="activity-wrap">
+        <h2>🎮 Math Challenge</h2>
+        <p>Answer 5 questions. After you answer, the next question appears automatically. Every round has new questions!</p>
+        <div id="quiz"></div>
+        <div class="score" id="score">Score: 0 / 5</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="progress">
+    <div class="container">
+      <div class="section-intro">
+        <h2>🏆 My Progress</h2>
+        <p>Keep practicing and collect your learning badges!</p>
+      </div>
+      <div class="progress-area">
+        <p><strong>Challenge progress</strong></p>
+        <div class="bar"><div class="fill" id="progressFill"></div></div>
+        <p id="progressText">0% complete</p>
+        <div class="badges">
+          <span class="badge" id="badge1">🔢 Number Explorer</span>
+          <span class="badge" id="badge2">➕ Addition Star</span>
+          <span class="badge" id="badge3">🏆 Math Champion</span>
+        </div>
+        <br>
+        <button class="btn" onclick="resetQuiz()">Try Again 🔄</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>🌟 Math Adventure</strong></p>
+  <p>Grade 1 Mathematics E-Learning Website</p>
+  <p>Learn • Practice • Have Fun!</p>
+</footer>
+
+<script>
+  const numberLine = document.getElementById("numberLine");
+  for (let i = 1; i <= 20; i++) {
+    const n = document.createElement("div");
+    n.className = "number";
+    n.textContent = i;
+    numberLine.appendChild(n);
+  }
+
+  const TOTAL = 5;
+  const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+  const pick = arr => arr[rand(0, arr.length - 1)];
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // Three answer choices in a random order: the right one plus two close numbers
+  function numChoices(ans) {
+    const set = new Set([ans]);
+    let tries = 0;
+    while (set.size < 3 && tries++ < 50) {
+      const w = ans + pick([-3, -2, -1, 1, 2, 3]);
+      if (w >= 0) set.add(w);
+    }
+    return shuffle([...set].map(String));
+  }
+
+  const EMOJI_NAMES = { "🍎": "apples", "⭐": "stars", "❤️": "hearts", "🐟": "fish", "🎈": "balloons", "🍪": "cookies", "🐱": "cats", "🌼": "flowers" };
+  const SHAPE_FACTS = [
+    ["Which shape has 3 sides?", "Triangle"],
+    ["Which shape is round?", "Circle"],
+    ["Which shape has 4 equal sides?", "Square"],
+    ["Which shape has no corners?", "Circle"],
+    ["Which shape has 3 corners?", "Triangle"],
+    ["Which shape looks like a ball?", "Circle"],
+    ["Which shape looks like a window?", "Square"],
+    ["Which shape looks like a slice of pizza?", "Triangle"],
+    ["Which shape looks like a wheel?", "Circle"],
+    ["How many sides does a triangle have?", "3", ["2", "3", "4"]],
+    ["How many corners does a square have?", "4", ["3", "4", "5"]]
+  ];
+
+  // Every call makes a brand new question with random numbers
+  const makers = {
+    count() {
+      const e = pick(Object.keys(EMOJI_NAMES)), n = rand(2, 12);
+      return { key: `count-${e}-${n}`, q: `How many ${EMOJI_NAMES[e]} are there? ${e.repeat(n)}`, choices: numChoices(n), answer: String(n) };
+    },
+    order() {
+      const before = Math.random() < 0.5;
+      const n = before ? rand(2, 20) : rand(1, 19);
+      const ans = before ? n - 1 : n + 1;
+      return { key: `order-${before}-${n}`, q: `What number comes ${before ? "before" : "after"} ${n}?`, choices: numChoices(ans), answer: String(ans) };
+    },
+    add() {
+      const a = rand(1, 9), b = rand(1, 10);
+      return { key: `add-${Math.min(a, b)}-${Math.max(a, b)}`, q: `What is ${a} + ${b}?`, choices: numChoices(a + b), answer: String(a + b) };
+    },
+    sub() {
+      const a = rand(3, 15), b = rand(1, Math.min(9, a - 1));
+      return { key: `sub-${a}-${b}`, q: `What is ${a} - ${b}?`, choices: numChoices(a - b), answer: String(a - b) };
+    },
+    shape() {
+      const [q, answer, choices] = pick(SHAPE_FACTS);
+      return { key: `shape-${q}`, q, choices: shuffle(choices || ["Circle", "Triangle", "Square"]), answer };
+    }
+  };
+
+  let seen = new Set();   // questions used in earlier rounds, so a new round has new questions
+  let round = [];
+  let index = 0;
+  let score = 0;
+  let currentQuestion = null;
+  let nextTimer = null;
+
+  function freshQuestion(type, roundSoFar) {
+    for (let i = 0; i < 60; i++) {
+      const item = makers[type]();
+      if (!seen.has(item.key) && !roundSoFar.some(r => r.key === item.key)) return item;
+    }
+    // Ran out of unused shape questions: use a new number question instead
+    return type === "shape" ? freshQuestion(pick(["add", "sub", "count"]), roundSoFar) : makers[type]();
+  }
+
+  function buildRound() {
+    const types = shuffle(["add", "sub", "count", pick(["order", "shape"]), pick(["add", "sub", "shape", "order", "count"])]);
+    const items = [];
+    types.forEach(t => items.push(freshQuestion(t, items)));
+    items.forEach(i => seen.add(i.key));
+    if (seen.size > 400) seen.clear();
+    return items;
+  }
+
+  function renderQuiz() {
+    if (index >= TOTAL) return showResults();
+    const quiz = document.getElementById("quiz");
+    currentQuestion = round[index];
+
+    quiz.innerHTML = `
+      <div class="quiz">
+        <div class="qnum">Question ${index + 1} of ${TOTAL}</div>
+        <div class="question">${currentQuestion.q}</div>
+        <div class="choices"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    `;
+
+    const choices = quiz.querySelector(".choices");
+    currentQuestion.choices.forEach(choice => {
+      const button = document.createElement("button");
+      button.className = "choice";
+      button.textContent = choice;
+      button.onclick = () => checkAnswer(choice, button);
+      choices.appendChild(button);
+    });
+  }
+
+  function checkAnswer(choice, clickedButton) {
+    const quizBox = clickedButton.closest(".quiz");
+    if (quizBox.dataset.answered === "true") return;
+    quizBox.dataset.answered = "true";
+
+    quizBox.querySelectorAll(".choice").forEach(btn => {
+      btn.disabled = true;
+      if (btn.textContent === currentQuestion.answer) btn.classList.add("correct");
+    });
+
+    const feedback = document.getElementById("feedback");
+    if (choice === currentQuestion.answer) {
+      score++;
+      feedback.textContent = "🎉 Correct! Great job!";
+    } else {
+      clickedButton.classList.add("wrong");
+      feedback.textContent = `💡 Good try! The answer is ${currentQuestion.answer}.`;
+    }
+
+    const answered = index + 1;
+    document.getElementById("score").textContent = `Score: ${score} / ${TOTAL}`;
+    const progress = Math.round(answered / TOTAL * 100);
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("progressText").textContent = `${progress}% complete`;
+
+    if (answered >= 2) document.getElementById("badge1").classList.add("unlocked");
+    if (score >= 3) document.getElementById("badge2").classList.add("unlocked");
+    if (score >= 5) document.getElementById("badge3").classList.add("unlocked");
+
+    nextTimer = setTimeout(() => {
+      index++;
+      renderQuiz();
+    }, 1300);
+  }
+
+  function showResults() {
+    const msg = score === TOTAL ? "Perfect! You are a Math Champion! 🏆"
+      : score >= 3 ? "Great work! Keep practicing! 🌟"
+      : "Good try! Let's practice again! 💪";
+    document.getElementById("quiz").innerHTML = `
+      <div class="quiz" style="text-align:center">
+        <div style="font-size:3rem">🎉</div>
+        <div class="question">Round complete! You got ${score} out of ${TOTAL}.</div>
+        <p>${msg}</p>
+        <button class="btn" onclick="resetQuiz()">Play Again with New Questions 🔄</button>
+      </div>
+    `;
+    document.getElementById("progressText").textContent = "100% complete. Round finished!";
+  }
+
+  function resetQuiz() {
+    clearTimeout(nextTimer);
+    score = 0;
+    index = 0;
+    round = buildRound();
+    document.getElementById("score").textContent = `Score: 0 / ${TOTAL}`;
+    document.getElementById("progressFill").style.width = "0%";
+    document.getElementById("progressText").textContent = "0% complete";
+    document.querySelectorAll(".badge").forEach(b => b.classList.remove("unlocked"));
+    renderQuiz();
+    document.getElementById("activities").scrollIntoView({ behavior: "smooth" });
+  }
+
+  round = buildRound();
+  renderQuiz();
+</script>
+</body>
+</html>
